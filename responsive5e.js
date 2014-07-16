@@ -504,11 +504,16 @@
         init: function() {
             if (aisleten.characters) {
                 aisleten.characters.jeditableSubmit = "OK";
+                aisleten.characters.jeditablePlaceholder = "click to edit";
             }
             this.updateAllAbilityModifiers();
         },
         onDataPreLoad: function(args) {
             window.console.log("onDataPreLoad");
+            if (aisleten.characters) {
+                aisleten.characters.jeditableSubmit = "OK";
+                aisleten.characters.jeditablePlaceholder = "click to edit";
+            }
             this.containerId = args.containerId;
             this.slug = args.slug;
             this.isEditMode = args.isEditable;
