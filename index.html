@@ -1,0 +1,735 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Responsive5e DST</title>
+        <link rel="stylesheet" type="text/css" href="responsive5e.css"></link>
+        <script type="text/javascript" src="libs/jquery-1.3.2.min.js"></script>
+        <script type="text/javascript" src="libs/jquery.jeditable-1.7.1.js"></script>
+        <script type="text/javascript" src="libs/namespace.js"></script>
+        <script type="text/javascript" src="http://www.obsidianportal.com/javascripts/characters.js"></script>
+        <script type="text/javascript" src="libs/example_data.js"></script>
+
+        <script type="text/javascript" src="responsive5e.js"></script>
+    </head>
+    <body>
+        <div class="dynamic_sheet_container">
+            <div id="dynamic_sheet_999" class="dynamic_sheet ds_responsive5e editable">
+                <span style="display:none;" class="dst_slug">responsive5e</span>
+                <div id="basicrules_container">
+                    <div class="basicinfo cols-12">
+                        <div class="row">
+                            <label>Player: </label> <span class="dsf dsf_player readonly"></span>
+                        </div>
+                        <div class="row">
+                            <label>Campaign: </label> <span class="dsf dsf_campaign readonly"></span>
+                        </div>
+                        <div class="row">
+                            <label>Level: </label> <span class="dsf dsf_level"></span>
+                        </div>
+                        <div class="row">
+                            <label>Race: </label> <span class="dsf dsf_race"></span>
+                        </div>
+                        <div class="row">
+                            <label>Class: </label> <span class="dsf dsf_class"></span>
+                        </div>
+                        <div class="row">
+                            <label>Background: </label> <span class="dsf dsf_background"></span>
+                        </div>
+                        <div class="row">
+                            <label>Alignment: </label> <span class="dsf dsf_alignment"></span>
+                        </div>
+                        <div class="row">
+                            <label>Current XP: </label> <span class="dsf dsf_xp"></span>
+                        </div>
+                    </div>
+                    <div class="battlestats cols-12">
+                        <div class="row">
+                            <div class="statbox statbox-3">
+                                <label class="statlabel">AC</label>
+                                <div class="stat">
+                                    <span class="dsf dsf_ac">&ndash;</span>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-3">
+                                <label class="statlabel">INIT</label>
+                                <div class="stat">
+                                    <span class="dsf dsf_init">&ndash;</span>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-3">
+                                <label class="statlabel">SPEED</label>
+                                <div class="stat">
+                                    <span class="dsf dsf_speed">&ndash;</span>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-3">
+                                <label class="statlabel">HP</label>
+                                <div class="stat">
+                                    <span class="dsf dsf_hp">&ndash;</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="miscstats cols-12">
+                        <div class="row">
+                            <div class="statbox statbox-4">
+                                <label class="statlabel">INSPIRATION</label>
+                                <div class="stat">
+                                    <span class="dsf dsf_inspiration">&ndash;</span>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-4">
+                                <label class="statlabel">PROFICIENCY BONUS</label>
+                                <div class="stat">
+                                    <span class="dsf dsf_proficiency_bonus">&ndash;</span>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-4">
+                                <label class="statlabel">HIT DICE</label>
+                                <div class="stat">
+                                    <span class="dsf dsf_hit_dice">&ndash;</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="abilities cols-12">
+                        <div class="row">
+                            <div class="statbox statbox-2">
+                                <label class="statlabel">STR</label>
+                                <div class="stat">
+                                    <span class="dsf dsf_str">&mdash;</span>
+                                </div>
+                                <div class="statmod">
+                                    <span class="mod str_mod">-</span>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-2">
+                                <label class="statlabel">DEX</label>
+                                <div class="stat">
+                                    <span class="dsf dsf_dex">&mdash;</span>
+                                </div>
+                                <div class="statmod">
+                                    <span class="mod dex_mod">-</span>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-2">
+                                <label class="statlabel">CON</label>
+                                <div class="stat">
+                                    <span class="dsf dsf_con">&mdash;</span>
+                                </div>
+                                <div class="statmod">
+                                    <span class="mod con_mod">-</span>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-2">
+                                <label class="statlabel">INT</label>
+                                <div class="stat">
+                                    <span class="dsf dsf_int">&mdash;</span>
+                                </div>
+                                <div class="statmod">
+                                    <span class="mod int_mod">-</span>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-2">
+                                <label class="statlabel">WIS</label>
+                                <div class="stat">
+                                    <span class="dsf dsf_wis">&mdash;</span>
+                                </div>
+                                <div class="statmod">
+                                    <span class="mod wis_mod">-</span>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-2">
+                                <label class="statlabel">CHA</label>
+                                <div class="stat">
+                                    <span class="dsf dsf_cha">&mdash;</span>
+                                </div>
+                                <div class="statmod">
+                                    <span class="mod cha_mod">-</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="full-label cols-12">SAVING THROWS</label>
+                            <div class="statbox statbox-2">
+                                <label class="statlabel-small">STR SAVE</label>
+                                <div class="stat-small">
+                                    <span class="dsf dsf_str_save">&mdash;</span>
+                                </div>
+                                <div class="toggle-container">
+                                    <button type="button" class="btn btn-default save-prof-btn toggle" data-fieldname="dsf_proficiency_str_save" title="Is Not Proficient with STR Save">P</button>
+                                    <div class="toggle-checkbox">
+                                        <span class="dsf checkbox dsf_proficiency_str_save"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-2">
+                                <label class="statlabel-small">DEX SAVE</label>
+                                <div class="stat-small">
+                                    <span class="dsf dsf_dex_save">&mdash;</span>
+                                </div>
+                                <div class="toggle-container">
+                                    <button type="button" class="btn btn-default save-prof-btn toggle" data-fieldname="dsf_proficiency_dex_save" title="Is Not Proficient with DEX Save">P</button>
+                                    <div class="toggle-checkbox">
+                                        <span class="dsf checkbox dsf_proficiency_dex_save"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-2">
+                                <label class="statlabel-small">CON SAVE</label>
+                                <div class="stat-small">
+                                    <span class="dsf dsf_con_save">&mdash;</span>
+                                </div>
+                                <div class="toggle-container">
+                                    <button type="button" class="btn btn-default save-prof-btn toggle" data-fieldname="dsf_proficiency_con_save" title="Is Not Proficient with CON Save">P</button>
+                                    <div class="toggle-checkbox">
+                                        <span class="dsf checkbox dsf_proficiency_con_save"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-2">
+                                <label class="statlabel-small">INT SAVE</label>
+                                <div class="stat-small">
+                                    <span class="dsf dsf_int_save">&mdash;</span>
+                                </div>
+                                <div class="toggle-container">
+                                    <button type="button" class="btn btn-default save-prof-btn toggle" data-fieldname="dsf_proficiency_int_save" title="Is Not Proficient with INT Save">P</button>
+                                    <div class="toggle-checkbox">
+                                        <span class="dsf checkbox dsf_proficiency_int_save"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-2">
+                                <label class="statlabel-small">WIS SAVE</label>
+                                <div class="stat-small">
+                                    <span class="dsf dsf_wis_save">&mdash;</span>
+                                </div>
+                                <div class="toggle-container">
+                                    <button type="button" class="btn btn-default save-prof-btn toggle" data-fieldname="dsf_proficiency_wis_save" title="Is Not Proficient with WIS Save">P</button>
+                                    <div class="toggle-checkbox">
+                                        <span class="dsf checkbox dsf_proficiency_wis_save"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-2">
+                                <label class="statlabel-small">CHA SAVE</label>
+                                <div class="stat-small">
+                                    <span class="dsf dsf_cha_save">&mdash;</span>
+                                </div>
+                                <div class="toggle-container">
+                                    <button type="button" class="btn btn-default save-prof-btn toggle" data-fieldname="dsf_proficiency_cha_save" title="Is Not Proficient with CHA Save">P</button>
+                                    <div class="toggle-checkbox">
+                                        <span class="dsf checkbox dsf_proficiency_cha_save"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="full-label cols-12">SKILLS</label>
+                            <div class="skillcol str_skills">
+                                <label class="skillcol-label">STR Skills</label>
+                                <div class="skillbox">
+                                    <label class="skill-label">Athletics</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_athletics">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_athletics" title="Is Not Proficient with Athletics">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_athletics"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="skillcol dex_skills">
+                                <label class="skillcol-label">DEX Skills</label>
+                                <div class="skillbox">
+                                    <label class="skill-label">Acrobatics</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_acrobatics">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_acrobatics" title="Is Not Proficient with Acrobatics">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_acrobatics"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skillbox">
+                                    <label class="skill-label">Sleight of Hand</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_sleight_of_hand">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_sleight_of_hand" title="Is Not Proficient with Sleight of Hand">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_sleight_of_hand"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skillbox">
+                                    <label class="skill-label">Stealth</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_stealth">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_stealth" title="Is Not Proficient with Stealth">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_stealth"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="skillcol con_skills">
+                                <span style="opacity:0;" aria-hidden="true">CON Skills</span>
+                            </div>
+                            <div class="skillcol int_skills">
+                                <label class="skillcol-label">INT Skills</label>
+                                <div class="skillbox">
+                                    <label class="skill-label">Arcana</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_arcana">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_arcana" title="Is Not Proficient with Arcana">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_arcana"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skillbox">
+                                    <label class="skill-label">History</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_history">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_history" title="Is Not Proficient with History">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_history"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skillbox">
+                                    <label class="skill-label">Investigation</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_investigation">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">                                        
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_investigation" title="Is Not Proficient with Investigation">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_investigation"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skillbox">
+                                    <label class="skill-label">Nature</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_nature">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_nature" title="Is Not Proficient with Nature">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_nature"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skillbox">
+                                    <label class="skill-label">Religion</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_religion">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_religion" title="Is Not Proficient with Religion">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_religion"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="skillcol wis_skills">
+                                <label class="skillcol-label">WIS Skills</label>
+                                <div class="skillbox">
+                                    <label class="skill-label">Animal Handling</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_animal_handling">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_animal_handling" title="Is Not Proficient with Animal Handling">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_animal_handling"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skillbox">
+                                    <label class="skill-label">Insight</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_insight">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_insight" title="Is Not Proficient with Insight">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_insight"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skillbox">
+                                    <label class="skill-label">Medicine</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_medicine">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_medicine" title="Is Not Proficient with Medicine">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_medicine"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skillbox">
+                                    <label class="skill-label">Perception</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_perception">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_perception" title="Is Not Proficient with Perception">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_perception"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skillbox">
+                                    <label class="skill-label">Survival</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_survival">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_survival" title="Is Not Proficient with Survival">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_survival"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="skillcol cha_skills">
+                                <label class="skillcol-label">CHA Skills</label>
+                                <div class="skillbox">
+                                    <label class="skill-label">Deception</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_deception">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_deception" title="Is Not Proficient with Deception">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_deception"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skillbox">
+                                    <label class="skill-label">Intimidation</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_intimidation">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_intimidation" title="Is Not Proficient with Intimidation">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_intimidation"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skillbox">
+                                    <label class="skill-label">Performance</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_performance">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_performance" title="Is Not Proficient with Performance">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_performance"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skillbox">
+                                    <label class="skill-label">Persuasion</label>
+                                    <div class="stat">
+                                        <span class="dsf dsf_persuasion">&ndash;</span>
+                                    </div>
+                                    <div class="toggle-container">
+                                        <button type="button" class="btn btn-default toggle" data-fieldname="dsf_proficiency_persuasion" title="Is Not Proficient with Persuasion">P</button>
+                                        <div class="toggle-checkbox">
+                                            <span class="dsf checkbox dsf_proficiency_persuasion"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="attacks left-col cols-border-box">
+                            <label class="full-label">ATTACKS</label>
+                            <div class="attacks-list-container row">
+                                <ul class="attacks-list clearfix">
+                                    <li class="header clearfix">
+                                        <div class="attack-stats">
+                                            <label class="attack-name">Attack</label>
+                                            <label class="attack-bonus">Bonus</label>
+                                            <label class="attack-damage">Damage</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <button type="button" class="btn btn-default addbtn">Add Attack</button>
+                                <div class="attacks-list-field">
+                                    <span class="dsf dsf_attacks"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="other-profs right-col cols-border-box">
+                            <label class="full-label">OTHER PROFICIENCIES</label>
+                            <div class="profs-list-container addlist-container row">
+                                <ul class="profs-list addlist">
+                                </ul>
+                                <button type="button" class="btn btn-default addbtn">Add Proficiency</button>
+                                <div class="addlist-field">
+                                    <span class="dsf dsf_other_proficiencies"></span>
+                                </div>
+                            </div>
+                            <label class="full-label languages-label">LANGUAGES KNOWN</label>
+                            <div class="languages-list-container addlist-container row">
+                                <ul class="language-list addlist">
+                                </ul>
+                                <button type="button" class="btn btn-default addbtn">Add Language</button>
+                                <div class="addlist-field">
+                                    <span class="dsf dsf_languages"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="racial-traits left-col cols-border-box">
+                            <label class="full-label">FEATURES &amp; TRAITS (RACE)</label>
+                            <div class="traits-list-container addlist-container row">
+                                <ul class="traits-list addlist">
+                                </ul>
+                                <button type="button" class="btn btn-default addbtn">Add Feature or Trait</button>
+                                <div class="addlist-field">
+                                    <span class="dsf dsf_race_features_and_traits"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="class-traits right-col cols-border-box">
+                            <label class="full-label">FEATURES &amp; TRAITS (CLASS)</label>
+                            <div class="traits-list-container addlist-container row">
+                                <ul class="traits-list addlist">
+                                </ul>
+                                <button type="button" class="btn btn-default addbtn">Add Feature or Trait</button>
+                                <div class="addlist-field">
+                                    <span class="dsf dsf_class_features_and_traits"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="feats left-col cols-border-box">
+                            <label class="full-label">FEATS</label>
+                            <div class="traits-list-container addlist-container row">
+                                <ul class="traits-list addlist">
+                                </ul>
+                                <button type="button" class="btn btn-default addbtn">Add Feat</button>
+                                <div class="addlist-field">
+                                    <span class="dsf dsf_feats"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="misc-traits right-col cols-border-box">
+                            <label class="full-label">FEATURES &amp; TRAITS (OTHER)</label>
+                            <div class="traits-list-container addlist-container row">
+                                <ul class="traits-list addlist">
+                                </ul>
+                                <button type="button" class="btn btn-default addbtn">Add Feature or Trait</button>
+                                <div class="addlist-field">
+                                    <span class="dsf dsf_misc_features_and_traits"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inventory row cols-border-box">
+                        <label class="full-label">EQUIPMENT</label>
+                        <div class="inventory-col-1 addlist-container">
+                            <ul class="equipment-1-list addlist">
+                            </ul>
+                            <button type="button" class="btn btn-default addbtn">Add Item</button>
+                            <div class="addlist-field">
+                                <span class="dsf dsf_equipment_1"></span>
+                            </div>
+                        </div>
+                        <div class="inventory-col-2 addlist-container">
+                            <ul class="equipment-2-list addlist">
+                            </ul>
+                            <button type="button" class="btn btn-default addbtn">Add Item</button>
+                            <div class="addlist-field">
+                                <span class="dsf dsf_equipment_2"></span>
+                            </div>
+                        </div>
+                        <div class="inventory-col-3 addlist-container">
+                            <ul class="equipment-3-list addlist">
+                            </ul>
+                            <button type="button" class="btn btn-default addbtn">Add Item</button>
+                            <div class="addlist-field">
+                                <span class="dsf dsf_equipment_3"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spellcasting row cols-border-box">
+                        <label class="full-label">SPELLCASTING</label>
+                        <div class="spellcasting-header row">
+                            <div class="statbox statbox-3">
+                                <label class="statlabel-small">Use this section?</label>
+                                <div class="use-spellcasting-toggle toggle-container">
+                                    <button type="button" class="btn btn-default toggle" data-fieldname="dsf_use_spellcasting" title="Character Is Not A Spellcaster">No</button>
+                                    <div class="toggle-checkbox">
+                                        <span class="dsf checkbox dsf_use_spellcasting"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-3">
+                                <label class="statlabel-small">Spellcaster Ability</label>
+                                <div class="stat-small">
+                                    <span class="dsf dsf_spellcasting_ability"></span>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-3">
+                                <label class="statlabel-small">Spell Save DC</label>
+                                <div class="stat-small">
+                                    <span class="dsf dsf_spell_save_dc"></span>
+                                </div>
+                            </div>
+                            <div class="statbox statbox-3">
+                                <label class="statlabel-small">Spell Attack Bonus</label>
+                                <div class="stat-small">
+                                    <span class="dsf dsf_spell_attack_bonus"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="spell-lists row">
+                            <div class="column_1">
+                                <div class="spellbox">
+                                    <label>Cantrips</label>
+                                    <div class="cantrip-list-container addlist-container">
+                                        <ul class="cantrip-list addlist">
+                                        </ul>
+                                        <button type="button" class="btn btn-default addbtn">Add Spell</button>
+                                        <div class="addlist-field">
+                                            <span class="dsf dsf_cantrips"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spellbox">
+                                    <label>Level 1</label>
+                                    <div class="addlist-container">
+                                        <ul class="addlist">
+                                        </ul>
+                                        <button type="button" class="btn btn-default addbtn">Add Spell</button>
+                                        <div class="addlist-field">
+                                            <span class="dsf dsf_level_1_spells"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spellbox">
+                                    <label>Level 2</label>
+                                    <div class="addlist-container">
+                                        <ul class="addlist">
+                                        </ul>
+                                        <button type="button" class="btn btn-default addbtn">Add Spell</button>
+                                        <div class="addlist-field">
+                                            <span class="dsf dsf_level_2_spells"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column_2">
+                                <div class="spellbox">
+                                    <label>Level 3</label>
+                                    <div class="addlist-container">
+                                        <ul class="addlist">
+                                        </ul>
+                                        <button type="button" class="btn btn-default addbtn">Add Spell</button>
+                                        <div class="addlist-field">
+                                            <span class="dsf dsf_level_3_spells"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spellbox">
+                                    <label>Level 4</label>
+                                    <div class="addlist-container">
+                                        <ul class="addlist">
+                                        </ul>
+                                        <button type="button" class="btn btn-default addbtn">Add Spell</button>
+                                        <div class="addlist-field">
+                                            <span class="dsf dsf_level_4_spells"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spellbox">
+                                    <label>Level 5</label>
+                                    <div class="addlist-container">
+                                        <ul class="addlist">
+                                        </ul>
+                                        <button type="button" class="btn btn-default addbtn">Add Spell</button>
+                                        <div class="addlist-field">
+                                            <span class="dsf dsf_level_5_spells"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column_3">
+                                <div class="spellbox">
+                                    <label>Level 6</label>
+                                    <div class="addlist-container">
+                                        <ul class="addlist">
+                                        </ul>
+                                        <button type="button" class="btn btn-default addbtn">Add Spell</button>
+                                        <div class="addlist-field">
+                                            <span class="dsf dsf_level_6_spells"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spellbox">
+                                    <label>Level 7</label>
+                                    <div class="addlist-container">
+                                        <ul class="addlist">
+                                        </ul>
+                                        <button type="button" class="btn btn-default addbtn">Add Spell</button>
+                                        <div class="addlist-field">
+                                            <span class="dsf dsf_level_6_spells"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spellbox">
+                                    <label>Level 8</label>
+                                    <div class="addlist-container">
+                                        <ul class="addlist">
+                                        </ul>
+                                        <button type="button" class="btn btn-default addbtn">Add Spell</button>
+                                        <div class="addlist-field">
+                                            <span class="dsf dsf_level_8_spells"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="spellbox">
+                                    <label>Level 9</label>
+                                    <div class="addlist-container">
+                                        <ul class="addlist">
+                                        </ul>
+                                        <button type="button" class="btn btn-default addbtn">Add Spell</button>
+                                        <div class="addlist-field">
+                                            <span class="dsf dsf_level_9_spells"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
