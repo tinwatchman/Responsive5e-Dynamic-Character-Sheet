@@ -10,5 +10,7 @@ var dynamic_sheet_attrs = {
   "str_modifier_plus_half_level" : "9",
   "dex" : "12",
   "dex_modifier" : "1",
-  "dex_modifier_plus_half_level" : "7"
+  "dex_modifier_plus_half_level" : "7",
+  "bio":"<p>Here&#8217;s some background.</p>",
+  "avatar_image":"<img alt=\"Philomarch\" class=\"avatar_image\" src=\"/images/icons/game_character_96x96.png\" title=\"Philomarch\" />"
 };

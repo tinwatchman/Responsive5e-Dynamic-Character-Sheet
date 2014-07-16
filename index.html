@@ -5,7 +5,7 @@
         <title>Responsive5e DST</title>
         <link rel="stylesheet" type="text/css" href="libs/application.css">
         <link rel="stylesheet" type="text/css" href="responsive5e.css">
-        <script type="text/javascript" src="libs/jquery-1.3.2.min.js"></script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script type="text/javascript" src="libs/jquery.jeditable-1.7.1.js"></script>
         <script type="text/javascript" src="libs/namespace.js"></script>
         <script type="text/javascript" src="http://www.obsidianportal.com/javascripts/characters.js"></script>
@@ -17,31 +17,44 @@
         <div class="dynamic_sheet_container">
             <div id="dynamic_sheet_999" class="dynamic_sheet ds_responsive5e editable">
                 <span style="display:none;" class="dst_slug">responsive5e</span>
-                <div id="basicrules_container">
-                    <div class="basicinfo cols-12">
-                        <div class="row">
-                            <label>Player: </label> <span class="dsf dsf_player readonly"></span>
+                <div id="responsive5e-container">
+                    <div class="basicinfo cols-12 clearfix">
+                        <div class="cols-7">
+                            <div class="row">
+                                <label>Player: </label> <span class="dsf dsf_player readonly"></span>
+                            </div>
+                            <div class="row">
+                                <label>Campaign: </label> <span class="dsf dsf_campaign readonly"></span>
+                            </div>
+                            <div class="row">
+                                <label>Level: </label> <span class="dsf dsf_level"></span>
+                            </div>
+                            <div class="row">
+                                <label>Race: </label> <span class="dsf dsf_race"></span>
+                            </div>
+                            <div class="row">
+                                <label>Class: </label> <span class="dsf dsf_class"></span>
+                            </div>
+                            <div class="row">
+                                <label>Background: </label> <span class="dsf dsf_background"></span>
+                            </div>
+                            <div class="row">
+                                <label>Alignment: </label> <span class="dsf dsf_alignment"></span>
+                            </div>
+                            <div class="row">
+                                <label>Current XP: </label> <span class="dsf dsf_xp"></span>
+                            </div>
                         </div>
-                        <div class="row">
-                            <label>Campaign: </label> <span class="dsf dsf_campaign readonly"></span>
+                        <div class="cols-5 clearfix">
+                            <div class="image-display">
+                                <span class="dst dst_avatar_image"></span>
+                            </div>
                         </div>
-                        <div class="row">
-                            <label>Level: </label> <span class="dsf dsf_level"></span>
-                        </div>
-                        <div class="row">
-                            <label>Race: </label> <span class="dsf dsf_race"></span>
-                        </div>
-                        <div class="row">
-                            <label>Class: </label> <span class="dsf dsf_class"></span>
-                        </div>
-                        <div class="row">
-                            <label>Background: </label> <span class="dsf dsf_background"></span>
-                        </div>
-                        <div class="row">
-                            <label>Alignment: </label> <span class="dsf dsf_alignment"></span>
-                        </div>
-                        <div class="row">
-                            <label>Current XP: </label> <span class="dsf dsf_xp"></span>
+                    </div>
+                    <div class="biography cols-12 clearfix">
+                        <h3>BIOGRAPHY</h3>
+                        <div class="bio-container">
+                            <span class="dst dst_bio"></span>
                         </div>
                     </div>
                     <div class="battlestats cols-12">

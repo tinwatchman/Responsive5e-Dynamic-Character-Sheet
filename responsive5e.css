@@ -1,6 +1,6 @@
 /* Responsive 5e CSS */
 
-.ds_responsive5e #basicrules_container {
+.ds_responsive5e #responsive5e-container {
     width: 100%;
     margin: 0 auto;
     font-family: "Open Sans", Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -97,9 +97,6 @@
 
 
 /* BASIC INFO */
-.ds_responsive5e .basicinfo .row {
-    margin-bottom: 3px;
-}
 .ds_responsive5e .basicinfo label, .ds_responsive5e .basicinfo span.dsf {
     display:block;
     float:left;
@@ -110,6 +107,27 @@
     padding-right:8px;
     font-weight:bold;
     text-align:right;
+}
+.ds_responsive5e .basicinfo .image-display {
+    min-width:100px;
+    float:right;
+}
+
+/* BIO AND DESCRIPTION */
+.ds_responsive5e .biography {
+    margin:12px auto 10px;
+    padding:10px;
+    border:1px solid #000;
+}
+.ds_responsive5e .biography h3 {
+    width:100%;
+    margin-bottom:5px;
+    padding-bottom:5px;
+    border-bottom:1px inset #ccc;
+    font-size:100%;
+    line-height:1.5em;
+    font-weight:bold;
+    color:#000;
 }
 
 /* ABILITIES */
