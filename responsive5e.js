@@ -68,6 +68,9 @@
                 if (this.changeButtonText) {
                     this.element.text(this.textFalse);
                 }
+                if (!this.isEditMode) {
+                    this.element.hide();
+                }
             }
         },
         updateCheckbox: function() {
@@ -511,6 +514,13 @@
             // note: this gets called AFTER onDataPreLoad and onDataPostLoad!
             if (this.isEditMode) {
                 this.makeEditables();
+            } else {
+                // at least fill in the values so that they don't look weird
+                $(".ds_responsive5e .mdash-editable").each(function() {
+                    if ($(this).text() === "") {
+                        $(this).text("––");
+                    }
+                });
             }
         },
         onDataPreLoad: function(args) {
@@ -546,7 +556,6 @@
             } else {
                 $(".ds_responsive5e .biography").hide();
             }
-
             this.initSpellcastingPage();
         },
         onDataChange: function(fieldName, fieldValue) {
