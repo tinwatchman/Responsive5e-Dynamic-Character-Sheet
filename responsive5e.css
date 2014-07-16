@@ -22,13 +22,14 @@
     width: 100%;
     margin-top:5px;
 }
-.ds_responsive5e .row:before, .ds_responsive5e .row:after, .ds_responsive5e .skillbox:before, .ds_responsive5e .skillbox:after,
-.ds_responsive5e .addlist-container li.addlist-item:before, .ds_responsive5e .addlist-container li.addlist-item:after,
+.ds_responsive5e .row:before, .ds_responsive5e .row:after, 
+.ds_responsive5e .addlist-container li.addlist-item:before, 
+.ds_responsive5e .addlist-container li.addlist-item:after, 
 .ds_responsive5e .clearfix:before, .ds_responsive5e .clearfix:after {
     display: table;
     content: " ";
 }
-.ds_responsive5e .row:after, .ds_responsive5e .skillbox:after, .ds_responsive5e .clearfix:after, 
+.ds_responsive5e .row:after, .ds_responsive5e .clearfix:after, 
 .ds_responsive5e .addlist-container li.addlist-item:after {
     clear: both;
 }
@@ -257,15 +258,36 @@
       font-variant:small-caps;
   }
   .ds_responsive5e .skillbox .stat {
-      width:65%;
+      max-width:65%;
+      min-width:20px;
       min-height:28px;
       float:left;
       margin:0 5%;
       padding-top:8px;
       font-size:112.5%;
   }
+  .ds_responsive5e .skillbox .stat .dsf {
+      display:block;
+      float:left;
+  }
   .ds_responsive5e .skillbox .stat .dsf input {
       min-width:30px;
+      max-width:40%;
+      float:left;
+      position:relative;
+      top:-4px;
+  }
+  .ds_responsive5e .skillbox .stat .dsf button {
+      min-width:20px;
+      max-width:25%;
+      margin-top:-8px;
+      margin-left:2px;
+      padding-left:3px!important;
+      padding-right:3px!important;
+      float:left;
+      box-sizing: content-box;
+      -webkit-box-sizing: content-box;
+      -moz-box-sizing: content-box;
   }
   .ds_responsive5e .skillbox .toggle-container {
       width:25%;
@@ -307,7 +329,8 @@
       font-variant:small-caps;
   }
   .ds_responsive5e .skillbox .stat {
-      width:65%;
+      max-width:65%;
+      min-width:20px;
       min-height:28px;
       float:left;
       margin:0 5%;
