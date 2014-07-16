@@ -9,6 +9,12 @@
 .ds_responsive5e label {
     color:#000;
 }
+.ds_responsive5e a {
+    text-decoration:none;
+}
+.ds_responsive5e a:hover {
+    text-decoration:underline;
+}
 .ds_responsive5e .row {
     width: 100%;
     margin-top:5px;
