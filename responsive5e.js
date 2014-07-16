@@ -116,6 +116,7 @@
 (function($, window) {
     var EditableList = function(element, options) {
         this.element = $(element);
+        this.defaults.editableSettings.placeholder = aisleten.characters.jeditablePlaceholder;
         this.options = $.extend({}, this.defaults, options);
         this.init();
     }
@@ -285,6 +286,7 @@
  (function($, window) {
      var AttackList = function(element, options) {
          this.element = $(element);
+         this.defaults.editableSettings.placeholder = aisleten.characters.jeditablePlaceholder;
          this.options = $.extend({}, this.defaults, options);
          this.init();
      }
@@ -502,11 +504,10 @@
         slug: null,
         isEditMode: false,
         init: function() {
-            if (aisleten.characters) {
-                aisleten.characters.jeditableSubmit = "OK";
-                aisleten.characters.jeditablePlaceholder = "click to edit";
+            // note: this gets called AFTER onDataPreLoad and onDataPostLoad!
+            if (this.isEditMode) {
+                this.makeEditables();
             }
-            this.updateAllAbilityModifiers();
         },
         onDataPreLoad: function(args) {
             window.console.log("onDataPreLoad");
@@ -554,10 +555,25 @@
                 $(".ds_responsive5e .spellcasting").hide();
             }
         },
-        addField: function(fieldName) {
-            if (aisleten.characters) {
-                aisleten.characters.bindField(fieldName, this.slug, this.containerId);
+        makeEditables: function() {
+            var self = this;
+            var editableFunc = function(value, settings) {
+                return value;
             }
+            var editableOpts = {
+                'submit': aisleten.characters.jeditableSubmit,
+                'cssclass': 'jeditable_input',
+                'callback': function(value, settings) {
+                    // let's just cut to the chase
+                    var fieldName = aisleten.characters.findDsfClass($(this));
+                    self.onDataChange(fieldName, value);
+                }
+            }
+            $(".ds_responsive5e .mdash-editable").each(function() {
+                $(this).removeClass("readonly");
+                var myopts = $.extend({}, editableOpts, {'placeholder':"––"});
+                $(this).editable(editableFunc, myopts);
+            });
         },
         updateAllAbilityModifiers: function() {
             var statSelector = "",
