@@ -29,8 +29,7 @@
         isEditMode: false,
         init: function() {
             if (this.element) {
-                var fieldName = this.element.attr("data-fieldname"),
-                    plugin = this;
+                var fieldName = this.element.attr("data-fieldname");
                 this.checkbox = this.element.parent(".toggle-container").find("." + fieldName + " input");
                 this.titleFalse = this.element.attr("title");
                 this.titleTrue = this.titleFalse.replace("Not ", "");
@@ -41,8 +40,8 @@
                 }
                 this.updateView();
                 if (this.isEditMode) {
-                    this.element.click(function() {
-                        plugin.onClick();
+                    this.element.on("click", null, {plugin:this}, function(event) {
+                        event.data.plugin.onClick();
                     });
                 }
             }
@@ -82,6 +81,7 @@
             this.checkbox.trigger("change");
         },
         destroy: function() {
+            this.element.off("click");
             this.name = null;
             this.titleFalse = null;
             this.titleTrue = null;
@@ -147,12 +147,12 @@
                 this.list = this.element.find("ul.addlist");
                 this.addBtn = this.element.find("button.addbtn");
                 this.field = this.element.find("div.addlist-field span.dsf");
-                var self = this,
-                    itemstr = this.field.text();
+                this.items = [];
+                var itemstr = this.field.text();
                 // set up button
                 if (this.options.isEditMode) {
-                    this.addBtn.click(function(event) {
-                        self.onAddItem();
+                    this.addBtn.on("click", null, {plugin:this}, function(event) {
+                        event.data.plugin.onAddItem();
                     });
                 } else {
                     this.addBtn.remove();
@@ -168,14 +168,14 @@
             var removeBtnMarkup = this.options.removeBtnMarkup.replace("{{{INDEX}}}", this.items.length),
                 markup = this.options.itemMarkup.replace("{{{CONTENT}}}","").replace("{{{INDEX}}}", this.items.length).replace("{{{BUTTON}}}", removeBtnMarkup),
                 newItem = $(markup).appendTo(this.list),
-                editableOptions = $.extend({}, this.options.editableSettings)
-                self = this;
+                editableOptions = $.extend({}, this.options.editableSettings);
+            editableOptions.origin = this;
             editableOptions.callback = function(value, settings) {
-                    self.onUpdateItem(this, value);
+                    settings.origin.onUpdateItem(this, value);
             }
             newItem.find("span.content").editable(this.editableReturnFunc, editableOptions);
-            newItem.find("button.removebtn").click(function() {
-                self.onRemoveItem(this);
+            newItem.find("button.removebtn").on("click", null, {plugin:this}, function(event) {
+                event.data.plugin.onRemoveItem(this);
             });
         },
         renderList: function() {
@@ -184,8 +184,7 @@
                 markup = "",
                 btnMarkup = "",
                 totalMarkup = "",
-                myItems = null,
-                self = this;
+                myItems = null;
             if (len > 0) {
                 for (var i=0; i<len; i++) {
                     markup = this.options.itemMarkup.replace("{{{CONTENT}}}", this.items[i]).replace("{{{INDEX}}}", i);
@@ -199,12 +198,13 @@
                 }
                 myItems = $(totalMarkup).appendTo(this.list);
                 if (this.options.isEditMode) {
-                    myItems.find("button.removebtn").click(function() {
-                        self.onRemoveItem(this);
+                    myItems.find("button.removebtn").on("click", null, {plugin:this}, function(event) {
+                        event.data.plugin.onRemoveItem(this);
                     });
                     var editableopts = $.extend({}, this.options.editableSettings);
+                    editableopts.origin = this;
                     editableopts.callback = function(value, settings) {
-                        self.onUpdateItem(this, value);
+                        settings.origin.onUpdateItem(this, value);
                     }
                     myItems.find("span.content").editable(this.editableReturnFunc, editableopts);
                 }
@@ -221,20 +221,24 @@
             var index = parseInt(button.getAttribute("data-index")),
                 child = null,
                 content = null,
-                isConfirmed = true;
+                isConfirmed = true,
+                isActualItem = true;
             if (index !== null && !isNaN(index)) {
                 child = this.list.children("li.addlist-item").eq(index);
                 content = child.find("span.content").text();
                 if (content !== "" && content !== aisleten.characters.jeditablePlaceholder) {
                     isConfirmed = window.confirm(this.options.confirmMessage);
+                    isActualItem = false;
                 }
                 if (isConfirmed) {
                     // remove view item
                     child.remove();
                     // remove from array
-                    this.items.splice(index, 1);
+                    if (isActualItem) {
+                        this.items.splice(index, 1);
+                        this._updateField();
+                    }
                     this._updateListIndices();
-                    this._updateField();
                 }
             }
         },
@@ -510,7 +514,6 @@
             }
         },
         onDataPreLoad: function(args) {
-            window.console.log("onDataPreLoad");
             if (aisleten.characters) {
                 aisleten.characters.jeditableSubmit = "OK";
                 aisleten.characters.jeditablePlaceholder = "click to edit";
@@ -520,7 +523,6 @@
             this.isEditMode = args.isEditable;
         },
         onDataPostLoad: function(args) {
-            window.console.log("onDataPostLoad");
             this.updateAllAbilityModifiers();
             $("button.toggle").not(".ds_responsive5e .use-spellcasting-toggle button.toggle").basicRulesToggleButton({
                 'isEditMode': this.isEditMode
@@ -531,6 +533,20 @@
             $("div.attacks-list-container").basicRulesAttackList({
                 'isEditMode': this.isEditMode
             });
+            // get biography and picture if not in edit mode
+            if (!this.isEditMode && dynamic_sheet_attrs) {
+                // get biography
+                if (dynamic_sheet_attrs.hasOwnProperty("bio")) {
+                    $(".ds_responsive5e .dst_bio").html(dynamic_sheet_attrs["bio"]);
+                }
+                // get image
+                if (dynamic_sheet_attrs.hasOwnProperty("avatar_image")) {
+                    $(".ds_responsive5e .dst_avatar_image").html(dynamic_sheet_attrs["avatar_image"]);
+                }
+            } else {
+                $(".ds_responsive5e .biography").hide();
+            }
+
             this.initSpellcastingPage();
         },
         onDataChange: function(fieldName, fieldValue) {
@@ -540,6 +556,15 @@
                     return;
                 }
             }
+        },
+        onPreSave: function() {
+            var self = this;
+            $(".ds_responsive5e .dsf").not(".checkbox").not(".readonly").each(function() {
+                var val = $(this).text();
+                if (self.isValUnedited(val)) {
+                    $(this).text("");
+                }
+            });
         },
         initSpellcastingPage: function() {
             var isSpellcaster = $(".ds_responsive5e .dsf_use_spellcasting input").val();
@@ -563,6 +588,7 @@
             var editableOpts = {
                 'submit': aisleten.characters.jeditableSubmit,
                 'cssclass': 'jeditable_input',
+                'placeholder':"––",
                 'callback': function(value, settings) {
                     // let's just cut to the chase
                     var fieldName = aisleten.characters.findDsfClass($(this));
@@ -571,8 +597,7 @@
             }
             $(".ds_responsive5e .mdash-editable").each(function() {
                 $(this).removeClass("readonly");
-                var myopts = $.extend({}, editableOpts, {'placeholder':"––"});
-                $(this).editable(editableFunc, myopts);
+                $(this).editable(editableFunc, editableOpts);
             });
         },
         updateAllAbilityModifiers: function() {
@@ -617,7 +642,7 @@
             }
         },
         isValUnedited: function(val) {
-            return (val === "X" || val === null || val === "" || val === "&ndash;" || val === "&mdash;" || val === aisleten.characters.jeditablePlaceholder);
+            return (val === null || val === "" || val === "––" || val === aisleten.characters.jeditablePlaceholder);
         }
     }
     $.Responsive5e = new Responsive5e();
@@ -632,10 +657,16 @@ function responsive5e_dataPreLoad(options) {
 function responsive5e_dataPostLoad(options) {
     $.Responsive5e.onDataPostLoad(options);
 }
+function responsive5e_dataPreSave(options) {
+    $.Responsive5e.onPreSave();
+}
+
 /**
  * DOCUMENT READY FUNCTION
  */
 $(document).ready(function() {
-    $.Responsive5e.init();
+    var timeout = window.setTimeout(function() {
+        $.Responsive5e.init();
+    }, 100);
 });
 
