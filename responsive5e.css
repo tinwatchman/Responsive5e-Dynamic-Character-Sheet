@@ -15,6 +15,9 @@
 .ds_responsive5e a:hover {
     text-decoration:underline;
 }
+.ds_responsive5e .hidden {
+    display: none;
+}
 .ds_responsive5e .row {
     width: 100%;
     margin-top:5px;
@@ -706,4 +709,8 @@
     width:100%;
     display:block;
     font-weight:bold;
+}
+.ds_responsive5e .skill-prof-btn {
+    padding: 6px!important;
+    font-weight: bold;
 }
