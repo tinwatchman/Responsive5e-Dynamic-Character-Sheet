@@ -491,7 +491,6 @@
      }
  })(jQuery, window);
 
-
 /**
  * RESPONSIVE 5E MAIN SINGLETON
  */
@@ -618,3 +617,4 @@ function responsive5e_dataPostLoad(options) {
 $(document).ready(function() {
     $.Responsive5e.init();
 });
+
