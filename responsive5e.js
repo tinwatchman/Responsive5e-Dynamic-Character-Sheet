@@ -569,6 +569,7 @@
         render: function() {
             this.element.find("ul.inventory-list").empty();
             if (this.itemMap.getItemCount() > 0) {
+                this.itemMap.resortColumns();
                 var viewColumns = [this.element.find("ul.col-1-list"), this.element.find("ul.col-2-list"), this.element.find("ul.col-3-list")],
                     modelColumns = this.itemMap.getColumns(),
                     len = -1,
@@ -582,7 +583,6 @@
                     modelColumn = modelColumns[i];
                     len = modelColumn.length;
                     if (len > 0) {
-                        modelColumn.sort(this.indexSort);
                         html = "";
                         for (var n=0; n<len; n++) {
                             item = this.renderItem(modelColumn[n]);
@@ -656,7 +656,6 @@
             this.lastUpdateEvent = null;
         },
         onResize: function() {
-            window.console.log("resize");
             if (this.lastResizeEvent === null || ($.now() - this.lastResizeEvent) > 20) {
                 var columns = [this.element.find("ul.col-1-list"), this.element.find("ul.col-2-list"), this.element.find("ul.col-3-list")],
                     column = null,
@@ -667,7 +666,6 @@
                     this.adjustElementDimensions(children, column);
                 }
                 this.lastResizeEvent = $.now();
-                window.console.log("resized: " + this.lastResizeEvent);
             }
         },
         onUpdateItemName: function(field, value) {
@@ -720,32 +718,26 @@
             item.find("span.item").editable(this.editableFunc, this.editableSettings);
         },
         adjustElementDimensions: function(item, column) {
-            var width = column.innerWidth()-94;
-            item.find("span.item").width(width);
-            var timeout = window.setTimeout(function() {
-                item.each(function() {
-                    var height = $(this).height(),
-                        itemHeight = $(this).find("span.item").outerHeight();
-                    if (itemHeight < 42) {
-                        $(this).find("span.handle").css("height","");
-                    } else if ((height-itemHeight)>20) {
-                        $(this).find("span.handle").height(itemHeight+7);
-                    } else {
-                        $(this).find("span.handle").height(height);
-                    }
-                });
-            }, 25);
+            if (this.isEditMode) {
+                var width = column.innerWidth()-94;
+                item.find("span.item").width(width);
+                var timeout = window.setTimeout(function() {
+                    item.each(function() {
+                        var height = $(this).height(),
+                            itemHeight = $(this).find("span.item").outerHeight();
+                        if (itemHeight < 42) {
+                            $(this).find("span.handle").css("height","");
+                        } else if ((height-itemHeight)>20) {
+                            $(this).find("span.handle").height(itemHeight+7);
+                        } else {
+                            $(this).find("span.handle").height(height);
+                        }
+                    });
+                }, 25);
+            }
         },
         editableFunc: function(value, settings) {
             return value;
-        },
-        indexSort: function(a, b) {
-            if (a.index > b.index) {
-                return 1;
-            } else if (b.index > a.index) {
-                return -1;
-            }
-            return 0;
         },
         /**
          * gets column number, given the column's element as a jQuery object
@@ -801,14 +793,14 @@
             // read from json
             if (!$.Responsive5e.isValUnedited(str)) {
                 var object = JSON.parse(str);
-                if (object.hasOwnProperty["0"]) {
-                    this.column1 = object["0"];
+                if (object.hasOwnProperty("0")) {
+                    this.column1 = this.recoverColumn(this.column1, object["0"]);
                 }
-                if (object.hasOwnProperty["1"]) {
-                    this.column2 = object["1"];
+                if (object.hasOwnProperty("1")) {
+                    this.column2 = this.recoverColumn(this.column2, object["1"]);
                 }
-                if (object.hasOwnProperty["2"]) {
-                    this.column3 = object["2"];
+                if (object.hasOwnProperty("2")) {
+                    this.column3 = this.recoverColumn(this.column3, object["2"]);
                 }
                 this.itemsCreated = this.getHighestId();
             }
@@ -832,6 +824,11 @@
                 return 3;
             }
             return -1;
+        },
+        resortColumns: function() {
+            this.column1.sort(this.indexSort);
+            this.column2.sort(this.indexSort);
+            this.column3.sort(this.indexSort);
         },
         createItem: function() {
             var item = new InventoryItem();
@@ -898,6 +895,17 @@
                 this.updateIndexes(column);
             }
         },
+        recoverColumn: function(column, json) {
+            if (typeof json === "object") {
+                for (var key in json) {
+                    column.push(json[key]);
+                }
+                column.sort(this.indexSort);
+            } else if (typeof json === "array") {
+                column = json;
+            }
+            return column;
+        },
         updateIndexes: function(column) {
             var len = column.length;
             for (var i=0; i<len; i++) {
@@ -933,6 +941,14 @@
                 }
             }
             return highestId;
+        },
+        indexSort: function(a, b) {
+            if (a.index > b.index) {
+                return 1;
+            } else if (b.index > a.index) {
+                return -1;
+            }
+            return 0;
         }
     }
     var InventoryItem = function() {
