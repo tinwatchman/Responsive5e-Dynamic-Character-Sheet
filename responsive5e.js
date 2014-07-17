@@ -501,6 +501,464 @@
  })(jQuery, window);
 
 /**
+ * INVENTORY LIST PLUGIN
+ */
+ (function($, window) {
+    var InventoryList = function(element, options) {
+        this.element = $(element);
+        this.isEditMode = options.isEditMode;
+        this.editableSettings.placeholder = aisleten.characters.jeditablePlaceholder;
+        this.editableSettings.inventoryList = this;
+        this.init();
+    }
+    InventoryList.prototype = {
+        name: "plugin.Responsive5e.InventoryList",
+        options: null,
+        element: null,
+        field: null,
+        addBtn: null,
+        itemMap: null,
+        isEditMode: false,
+        itemMarkup: '<li class="inventory-item clearfix" data-id="{{{ID}}}">{{{HANDLE}}}<span class="item">{{{NAME}}}</span>{{{BTN}}}</li>',
+        handleMarkup: '<span class="handle"><span class="pictonic icon-unordered-list"></span></span>',
+        removeBtnMarkup: '<button class="btn btn-default removebtn">&#10005;</button>',
+        confirmMessage: 'Remove item {{{NAME}}} from inventory?',
+        lastUpdateEvent: null,
+        lastResizeEvent: null,
+        editableSettings: {
+            submit: "OK",
+            cssclass: 'jeditable_input',
+            placeholder: aisleten.characters.jeditablePlaceholder,
+            inventoryList: null,
+            callback: function(value, settings) {
+                settings.inventoryList.onUpdateItemName($(this), value);
+            }
+        },
+        init: function() {
+            var self = this;
+            this.field = this.element.find(".dsf_equipment");
+            this.addBtn = this.element.find("button.addbtn");
+            this.itemMap = new InventoryItemMap();
+            this.itemMap.fromJson(this.getFieldData());
+            if (this.isEditMode) {
+                this.element.find("ul.inventory-list").sortable({
+                    connectWith: ".inventory-list",
+                    items: "li.inventory-item",
+                    opacity: 0.5,
+                    placeholder: "sortable-placeholder",
+                    handle: ".handle",
+                    stop: function(event, ui) {
+                        self.onListStop(this, event, ui);
+                    },
+                    receive: function(event, ui) {
+                        self.onItemReceived(this, event, ui);
+                    },
+                    update: function(event, ui) {
+                        self.onItemUpdated(this, event, ui);
+                    }
+                });
+                this.addBtn.on("click", null, {plugin:this}, function(event) {
+                    event.data.plugin.onAddItem();
+                });
+                $(window).on("resize", null, {plugin:this}, function(event) {
+                    event.data.plugin.onResize();
+                });
+            }
+            this.render();
+        },
+        render: function() {
+            this.element.find("ul.inventory-list").empty();
+            if (this.itemMap.getItemCount() > 0) {
+                var viewColumns = [this.element.find("ul.col-1-list"), this.element.find("ul.col-2-list"), this.element.find("ul.col-3-list")],
+                    modelColumns = this.itemMap.getColumns(),
+                    len = -1,
+                    viewColumn = null,
+                    modelColumn = [],
+                    item = "",
+                    html = null,
+                    items = null;
+                for (var i=0; i<3; i++) {
+                    viewColumn = viewColumns[i];
+                    modelColumn = modelColumns[i];
+                    len = modelColumn.length;
+                    if (len > 0) {
+                        modelColumn.sort(this.indexSort);
+                        html = "";
+                        for (var n=0; n<len; n++) {
+                            item = this.renderItem(modelColumn[n]);
+                            html += item;
+                        }
+                        items = $(html).appendTo(viewColumn);
+                        if (this.isEditMode) {
+                            this.addItemEventListeners(items);
+                            this.adjustElementDimensions(items, viewColumn);
+                        }
+                    }
+                }
+            }
+        },
+        onAddItem: function() {
+            var item = this.itemMap.createItem(),
+                markup = this.renderItem(item),
+                column = this.itemMap.getShortestColumn(),
+                viewColumn = null;
+            switch (column) {
+                case 1:
+                    viewColumn = this.element.find(".col-1-list");
+                    break;
+                case 2:
+                    viewColumn = this.element.find(".col-2-list");
+                    break;
+                case 3:
+                    viewColumn = this.element.find(".col-3-list");
+                    break;
+            }
+            // add to view
+            var viewItem = $(markup).appendTo(viewColumn);
+            this.addItemEventListeners(viewItem);
+            this.adjustElementDimensions(viewItem, viewColumn);
+            // add to model
+            this.itemMap.addItem(item, column);
+            this.setFieldData();
+        },
+        onRemoveItem: function(button) {
+            var li = button.parent("li.inventory-item"),
+                itemId = li.attr("data-id"),
+                item = this.itemMap.getItem(itemId),
+                isConfirmed = true;
+            if (item.name !== null && item.name !== "") {
+                isConfirmed = window.confirm(this.confirmMessage.replace("{{{NAME}}}", item.name.toUpperCase()));
+            }
+            if (isConfirmed) {
+                li.find("button.removebtn").off("click");
+                li.remove();
+                this.itemMap.removeItem(item);
+                this.setFieldData();
+            }
+        },
+        onItemUpdated: function(list, event, ui) {
+            if (this.lastUpdateEvent === null || this.lastUpdateEvent.item !== ui.item || (event.timeStamp - this.lastUpdateEvent.time) > 20) {
+                this.lastUpdateEvent = {'from':list, 'item':ui.item, 'time':event.timeStamp, 'isTransfer':false};
+            }
+        },
+        onItemReceived: function(list, event, ui) {
+            if (this.lastUpdateEvent !== null && ui.item === this.lastUpdateEvent.item && (event.timeStamp - this.lastUpdateEvent.time) < 20) {
+                this.lastUpdateEvent.isTransfer = true;
+                this.lastUpdateEvent.to = list;
+            }
+        },
+        onListStop: function(list, event, ui) {
+            if (this.lastUpdateEvent !== null && this.lastUpdateEvent.isTransfer && this.lastUpdateEvent.from === list && (event.timeStamp - this.lastUpdateEvent.time) < 20) {
+                this.moveItem($(this.lastUpdateEvent.item), $(this.lastUpdateEvent.from), $(this.lastUpdateEvent.to));
+            } else if (this.lastUpdateEvent !== null) {
+                this.updateItemIndex($(this.lastUpdateEvent.item), $(this.lastUpdateEvent.from));
+            }
+            this.lastUpdateEvent = null;
+        },
+        onResize: function() {
+            window.console.log("resize");
+            if (this.lastResizeEvent === null || ($.now() - this.lastResizeEvent) > 20) {
+                var columns = [this.element.find("ul.col-1-list"), this.element.find("ul.col-2-list"), this.element.find("ul.col-3-list")],
+                    column = null,
+                    children = null;
+                for (var i=0; i<3; i++) {
+                    column = columns[i];
+                    children = column.children("li.inventory-item");
+                    this.adjustElementDimensions(children, column);
+                }
+                this.lastResizeEvent = $.now();
+                window.console.log("resized: " + this.lastResizeEvent);
+            }
+        },
+        onUpdateItemName: function(field, value) {
+            var item = field.parent("li.inventory-item"),
+                column = item.parent("ul.inventory-list"),
+                itemId = item.attr("data-id"),
+                itemObj = this.itemMap.getItem(itemId);
+            if (itemObj !== null) {
+                itemObj.name = value;
+                this.setFieldData();
+            }
+            this.adjustElementDimensions(item, column);
+        },
+        moveItem: function(item, oldColumn, newColumn) {
+            var itemId = parseInt(item.attr("data-id")),
+                oldColumnNum = this.getColumnNumber(oldColumn),
+                newColumnNum = this.getColumnNumber(newColumn);
+            if (!isNaN(itemId) && oldColumn != newColumn && oldColumnNum > -1 && newColumnNum > -1) {
+                var itemObj = this.itemMap.getItemFromColumn(itemId, oldColumnNum),
+                    newIndex = this.getItemIndexInColumn(item, newColumn);
+                this.itemMap.removeItem(itemObj);
+                itemObj.index = newIndex;
+                this.itemMap.addItem(itemObj, newColumnNum);
+                this.setFieldData();
+                this.adjustElementDimensions(item, newColumn);
+            }
+        },
+        updateItemIndex: function(item, column) {
+            var itemId = parseInt(item.attr("data-id")),
+                columnNo = this.getColumnNumber(column),
+                newIndex = this.getItemIndexInColumn(item, column);
+            if (!isNaN(itemId) && itemId > -1 && columnNo > -1 && newIndex > -1) {
+                this.itemMap.changeItemIndex(itemId, columnNo, newIndex);
+                this.setFieldData();
+            }
+        },
+        renderItem: function(item) {
+            var itemstr = this.itemMarkup.replace("{{{ID}}}", item.id).replace("{{{NAME}}}", item.name);
+            if (this.isEditMode) {
+                itemstr = itemstr.replace("{{{HANDLE}}}", this.handleMarkup).replace("{{{BTN}}}", this.removeBtnMarkup);
+            } else {
+                itemstr = itemstr.replace("{{{HANDLE}}}", "").replace("{{{BTN}}}", "");
+            }
+            return itemstr;
+        },
+        addItemEventListeners: function(item) {
+            item.find("button.removebtn").on("click", null, {plugin:this}, function(event) {
+                event.data.plugin.onRemoveItem($(this));
+            });
+            item.find("span.item").editable(this.editableFunc, this.editableSettings);
+        },
+        adjustElementDimensions: function(item, column) {
+            var width = column.innerWidth()-94;
+            item.find("span.item").width(width);
+            var timeout = window.setTimeout(function() {
+                item.each(function() {
+                    var height = $(this).height(),
+                        itemHeight = $(this).find("span.item").outerHeight();
+                    if (itemHeight < 42) {
+                        $(this).find("span.handle").css("height","");
+                    } else if ((height-itemHeight)>20) {
+                        $(this).find("span.handle").height(itemHeight+7);
+                    } else {
+                        $(this).find("span.handle").height(height);
+                    }
+                });
+            }, 25);
+        },
+        editableFunc: function(value, settings) {
+            return value;
+        },
+        indexSort: function(a, b) {
+            if (a.index > b.index) {
+                return 1;
+            } else if (b.index > a.index) {
+                return -1;
+            }
+            return 0;
+        },
+        /**
+         * gets column number, given the column's element as a jQuery object
+         * @param  {jQuery} viewColumn column element as jQuery object
+         * @return {int}               column number
+         */
+        getColumnNumber: function(viewColumn) {
+            if (viewColumn.hasClass("col-1-list")) {
+                return 1;
+            } else if (viewColumn.hasClass("col-2-list")) {
+                return 2;
+            } else if (viewColumn.hasClass("col-3-list")) {
+                return 3;
+            }
+            return -1;
+        },
+        /**
+         * gets the index of the item element (li) within the given column (ul) element.
+         * @param  {jQuery} item   item element as jQuery object
+         * @param  {jQuery} column column element as jQuery object
+         * @return {int}           item index if found, -1 otherwise
+         */
+        getItemIndexInColumn: function(item, column) {
+            var children = column.children("li"),
+                len = children.length;
+            for (var i=0; i<len; i++) {
+                if (children[i].getAttribute("data-id") === item.attr("data-id")) {
+                    return i;
+                }
+            }
+            return -1;
+        },
+        getFieldData: function() {
+            return this.field.text();
+        },
+        setFieldData: function() {
+            var str = this.itemMap.toJson();
+            this.field.text(str);
+        }
+    }
+    var InventoryItemMap = function() {
+        this.column1 = [];
+        this.column2 = [];
+        this.column3 = [];
+        itemsCreated = -1;
+    }
+    InventoryItemMap.prototype = {
+        column1: null,
+        column2: null,
+        column3: null,
+        itemsCreated: null,
+        fromJson: function(str) {
+            // read from json
+            if (!$.Responsive5e.isValUnedited(str)) {
+                var object = JSON.parse(str);
+                if (object.hasOwnProperty["0"]) {
+                    this.column1 = object["0"];
+                }
+                if (object.hasOwnProperty["1"]) {
+                    this.column2 = object["1"];
+                }
+                if (object.hasOwnProperty["2"]) {
+                    this.column3 = object["2"];
+                }
+                this.itemsCreated = this.getHighestId();
+            }
+        },
+        toJson: function() {
+            return JSON.stringify({'0':this.column1, '1':this.column2, '2':this.column3});
+        },
+        getItemCount: function() {
+            return this.column1.length + this.column2.length + this.column3.length;
+        },
+        getColumns: function() {
+            return [this.column1, this.column2, this.column3];
+        },
+        getShortestColumn: function() {
+            var minlen = Math.min(this.column1.length, this.column2.length, this.column3.length);
+            if (minlen === this.column1.length) {
+                return 1;
+            } else if (minlen === this.column2.length) {
+                return 2;
+            } else if (minlen === this.column3.length) {
+                return 3;
+            }
+            return -1;
+        },
+        createItem: function() {
+            var item = new InventoryItem();
+            this.itemsCreated++;
+            item.id = this.itemsCreated;
+            return item;
+        },
+        getItem: function(id) {
+            var itemId = parseInt(id),
+                item = null;
+            item = this._getItemFromColumn(itemId, this.column1);
+            if (item === null) {
+                item = this._getItemFromColumn(itemId, this.column2);
+                if (item === null) {
+                    item = this._getItemFromColumn(itemId, this.column3);
+                }
+            }
+            return item;
+        },
+        getItemFromColumn: function(id, columnNo) {
+            var col = this.getColumnByNum(columnNo);
+            if (col !== null) {
+                return this._getItemFromColumn(id, col);
+            }
+            return null;
+        },
+        _getItemFromColumn: function(id, column) {
+            var len = column.length;
+            for (var i=0; i<len; i++) {
+                if (column[i].id === id) {
+                    return column[i];
+                }
+            }
+            return null;
+        },
+        addItem: function(item, columnNo) {
+            var col = this.getColumnByNum(columnNo);
+            if (item.index < 0) {
+                col.push(item);
+            } else {
+                col.splice(item.index, 0, item);
+            }
+            this.updateIndexes(col);
+        },
+        removeItem: function(item) {
+            if (this.column1.indexOf(item) > -1) {
+                this.column1.splice(item.index, 1);
+                this.updateIndexes(this.column1);
+            } else if (this.column2.indexOf(item) > -1) {
+                this.column2.splice(item.index, 1);
+                this.updateIndexes(this.column2);
+            } else if (this.column3.indexOf(item) > -1) {
+                this.column3.splice(item.index, 1);
+                this.updateIndexes(this.column3);
+            }
+        },
+        changeItemIndex: function(id, columnNo, newIndex) {
+            var column = this.getColumnByNum(columnNo),
+                item = this._getItemFromColumn(id, column);
+            if (item !== null && item.index !== newIndex) {
+                column.splice(item.index, 1);
+                item.index = newIndex;
+                column.splice(newIndex, 0, item);
+                this.updateIndexes(column);
+            }
+        },
+        updateIndexes: function(column) {
+            var len = column.length;
+            for (var i=0; i<len; i++) {
+                column[i].index = i;
+            }
+        },
+        getColumnByNum: function(columnNo) {
+            switch (columnNo) {
+                case 1:
+                    return this.column1;
+                    break;
+                case 2:
+                    return this.column2;
+                    break;
+                case 3:
+                    return this.column3;
+                    break;
+            }
+            return null;
+        },
+        getHighestId: function() {
+            var cols = this.getColumns(),
+                col = null,
+                len = -1,
+                highestId = -1;
+            for (var i=0; i<3; i++) {
+                col = cols[i];
+                len = col.length;
+                for (var n=0; n<len; n++) {
+                    if (col[n].id > highestId) {
+                        highestId = col[n].id;
+                    }
+                }
+            }
+            return highestId;
+        }
+    }
+    var InventoryItem = function() {
+    }
+    InventoryItem.prototype = {
+        id:-1,
+        name:"",
+        index:-1
+    }
+    $.fn.basicRulesInventory = function(target, options) {
+        return this.each(function() {
+            var plugin = $.data(this, InventoryList.prototype.name);
+            if (!plugin) {
+                $.data(this, InventoryList.prototype.name, new InventoryList(this, target));
+            } else {
+                if (target == "destroy") {
+                    plugin.destroy();
+                    $.removeData(this, InventoryList.prototype.name);
+                    plugin = null;
+                }
+            }
+        });
+    }
+ })(jQuery, window);
+
+/**
  * RESPONSIVE 5E MAIN SINGLETON
  */
 (function($) {
@@ -543,6 +1001,9 @@
             $("div.attacks-list-container").basicRulesAttackList({
                 'isEditMode': this.isEditMode
             });
+            $("div.inventory").basicRulesInventory({
+                'isEditMode': this.isEditMode
+            })
             // get biography and picture if not in edit mode
             if (!this.isEditMode && dynamic_sheet_attrs) {
                 // get biography

@@ -500,6 +500,73 @@
     margin:0 1%;
     float:left;
 }
+.ds_responsive5e .inventory ul {
+    width:100%;
+    min-height:40px;
+    display:block;
+    margin:0;
+    padding:0;
+}
+.ds_responsive5e .inventory ul li {
+    min-height:40px;
+    display:block;
+    margin-bottom:5px;
+    padding:0;
+    border:1px solid #000;
+    background-color:#fff;
+}
+.ds_responsive5e .inventory ul li.sortable-placeholder {
+    min-height:40px;
+    background-color:#dedede;
+}
+.ds_responsive5e .inventory ul li .handle {
+    width: 36px;
+    height:100%;
+    min-height: 40px;
+    display:block;
+    float:left;
+    border-right:1px solid #000;
+    background-color:#ccc;
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+}
+.ds_responsive5e .inventory ul li .handle .icon-unordered-list {
+    min-width:16px;
+    min-height:16px;
+    margin-top:10px;
+}
+.ds_responsive5e .inventory ul li .item {
+    display:block;
+    float:left;
+    padding:5px;
+    word-wrap:break-word;
+}
+.ds_responsive5e .inventory ul li .item .jeditable_input {
+    margin-bottom:0;
+}
+.ds_responsive5e .inventory ul li .item .jeditable_input input {
+    max-width:65%;
+    position:relative;
+    top:-2px;
+}
+.ds_responsive5e .inventory ul li .item .jeditable_input button {
+    position:relative;
+    margin-top:-5px;
+}
+.ds_responsive5e .inventory ul li .removebtn {
+    display:block;
+    float:right;
+    margin:1px 1px 2px 0;
+}
+.ds_responsive5e .inventory .addbtn {
+    width:100%;
+    display:block;
+    clear:both;
+}
+.ds_responsive5e .inventory .inventory-field {
+    display:none;
+}
 @media (max-width: 649px) {
     .ds_responsive5e .inventory .inventory-col-1, 
     .ds_responsive5e .inventory .inventory-col-2, 
@@ -514,10 +581,9 @@
         border-top:1px solid #ccc;
         border-bottom:1px solid #ccc;
     }
-    .ds_responsive5e .inventory ul.addlist {
-        padding:0 0 0 10px;
-    }
 }
+
+
 /* SPELLCASTING */
 .ds_responsive5e .spellcasting {
     width:100%;
