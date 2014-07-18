@@ -10,7 +10,8 @@
         <script type="text/javascript" src="libs/jquery.jeditable-1.7.1.js"></script>
         <script type="text/javascript" src="libs/namespace.js"></script>
         <script type="text/javascript" src="http://www.obsidianportal.com/javascripts/characters.js"></script>
-        <script type="text/javascript" src="libs/example_data.js"></script>
+        <!-- <script type="text/javascript" src="libs/example_data.js"></script> -->
+        <script type="text/javascript" src="samples/nibs.js"></script>
 
         <script type="text/javascript" src="responsive5e.js"></script>
     </head>
@@ -20,7 +21,7 @@
                 <span style="display:none;" class="dst_slug">responsive5e</span>
                 <div class="responsive5e-container">
                     <div class="basicinfo cols-12 clearfix">
-                        <div class="cols-7">
+                        <div class="basicinfo-1">
                             <div class="row">
                                 <label>Player: </label> <span class="dsf dsf_player readonly"></span>
                             </div>
@@ -29,9 +30,6 @@
                             </div>
                             <div class="row">
                                 <label>Level: </label> <span class="dsf dsf_level"></span>
-                            </div>
-                            <div class="row">
-                                <label>Gender: </label> <span class="dsf dsf_gender"></span>
                             </div>
                             <div class="row">
                                 <label>Race: </label> <span class="dsf dsf_race"></span>
@@ -43,16 +41,37 @@
                                 <label>Background: </label> <span class="dsf dsf_background"></span>
                             </div>
                             <div class="row">
-                                <label>Size: </label> <span class="dsf dsf_size"></span>
-                            </div>
-                            <div class="row">
                                 <label>Alignment: </label> <span class="dsf dsf_alignment"></span>
                             </div>
                             <div class="row">
                                 <label>Current XP: </label> <span class="dsf dsf_xp"></span>
                             </div>
+                            <div class="row">
+                                <label>Size: </label> <span class="dsf dsf_size"></span>
+                            </div>
+                            <div class="row">
+                                <label>Gender: </label> <span class="dsf dsf_gender"></span>
+                            </div>
+                            <div class="row">
+                                <label>Age: </label> <span class="dsf dsf_age"></span>
+                            </div>
+                            <div class="row">
+                                <label>Height: </label> <span class="dsf dsf_height"></span>
+                            </div>
+                            <div class="row">
+                                <label>Weight: </label> <span class="dsf dsf_weight"></span>
+                            </div>
+                            <div class="row">
+                                <label>Eyes: </label> <span class="dsf dsf_eyes"></span>
+                            </div>
+                            <div class="row">
+                                <label>Skin: </label> <span class="dsf dsf_skin"></span>
+                            </div>
+                            <div class="row">
+                                <label>Hair: </label> <span class="dsf dsf_hair"></span>
+                            </div>
                         </div>
-                        <div class="cols-5 clearfix">
+                        <div class="basicinfo-2 clearfix">
                             <div class="image-display">
                                 <span class="dst dst_avatar_image"></span>
                             </div>
@@ -64,7 +83,10 @@
                             <span class="dst dst_bio"></span>
                         </div>
                     </div>
-                    <div class="battlestats cols-12">
+                    <div class="instructions cols-12 clearfix">
+                        <p><strong>Tip:</strong> Press down the buttons marked by the letter &quot;P&quot; to show that your character is proficient with a given skill or save.</p>
+                    </div>
+                    <div class="battlestats cols-12 cols-border-box">
                         <div class="row">
                             <div class="statbox statbox-3">
                                 <label class="statlabel">AC</label>
@@ -92,7 +114,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="miscstats cols-12">
+                    <div class="miscstats cols-12 cols-border-box">
                         <div class="row">
                             <div class="statbox statbox-4">
                                 <label class="statlabel">INSPIRATION</label>
@@ -114,7 +136,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="abilities cols-12">
+                    <div class="abilities cols-12 cols-border-box">
                         <div class="row">
                             <div class="statbox statbox-2">
                                 <label class="statlabel">STR</label>
@@ -613,7 +635,7 @@
                         <label class="full-label">SPELLCASTING</label>
                         <div class="spellcasting-header row">
                             <div class="statbox statbox-3">
-                                <label class="statlabel-small">Use this section?</label>
+                                <label class="statlabel-small">Show this section?</label>
                                 <div class="use-spellcasting-toggle toggle-container">
                                     <button type="button" class="btn btn-default toggle" data-fieldname="dsf_use_spellcasting" title="Character Is Not A Spellcaster">No</button>
                                     <div class="toggle-checkbox">

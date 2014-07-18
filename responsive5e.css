@@ -7,6 +7,7 @@
     color:#000;
 }
 .ds_responsive5e label {
+    font-size: 1em;
     color:#000;
 }
 .ds_responsive5e a {
@@ -49,6 +50,8 @@
     -moz-box-sizing: border-box;
 }
 .ds_responsive5e .jeditable_input input {
+    min-width:24px;
+    min-height:24px;
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -99,7 +102,6 @@
           box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
 }
 
-
 /* BASIC INFO */
 .ds_responsive5e .basicinfo label, .ds_responsive5e .basicinfo span.dsf {
     display:block;
@@ -112,12 +114,48 @@
     font-weight:bold;
     text-align:right;
 }
-.ds_responsive5e .basicinfo .image-display {
-    min-width:100px;
+.ds_responsive5e .basicinfo .basicinfo-1 {
+    width: 58.33333333%;
+    float: left;
+}
+.ds_responsive5e .basicinfo .basicinfo-2 {
+    width: 41.66666667%;
+    float: left;
+}
+.ds_responsive5e .basicinfo .basicinfo-2 .image-display {
     float:right;
+    margin:3px 7px 0 0;
+    border:1px solid #000;
+}
+.ds_responsive5e .basicinfo .basicinfo-2 .image-display img {
+    max-width:226px;
+}
+@media (max-width: 649px) {
+    .ds_responsive5e .basicinfo .basicinfo-1 {
+        width:100%;
+        clear:both;
+        padding:10px;
+    }
+    .ds_responsive5e .basicinfo .basicinfo-2 {
+        width:100%;
+        clear:both;
+    }
+    .ds_responsive5e .basicinfo .basicinfo-2 .image-display {
+        width:100%;
+        margin:0;
+        padding:10px 0;
+        border-top:1px solid #000;
+        border-bottom:1px solid #000;
+        border-left:none;
+        border-right:none;
+    }
+    .ds_responsive5e .basicinfo .basicinfo-2 .image-display img {
+        display:block;
+        margin:0 auto;
+    }
 }
 
-/* BIO AND DESCRIPTION */
+/* BIO */
 .ds_responsive5e .biography {
     margin:12px auto 10px;
     padding:10px;
@@ -132,6 +170,24 @@
     line-height:1.5em;
     font-weight:bold;
     color:#000;
+}
+.ds_responsive5e .biography .bio-container {
+    font-size:87.5%;
+}
+
+/* INSTRUCTIONS */
+.ds_responsive5e .instructions {
+    display:none;
+    margin-top:10px;
+}
+.ds_responsive5e .instructions p {
+    width:75%;
+    margin:0 auto;
+    padding:10px;
+    border:1px solid #000;
+    font-size:0.875em;
+    line-height:1.428;
+    text-align:center;
 }
 
 /* ABILITIES */
@@ -151,7 +207,7 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
 }
-@media (max-width: 350px) {
+@media (max-width: 649px) {
     .ds_responsive5e .statbox {
         padding:7px;
     }
@@ -186,7 +242,7 @@
     font-weight: bold;
     text-align: center;
 }
-@media (max-width: 350px) {
+@media (max-width: 649px) {
     .ds_responsive5e .statbox-4 .statlabel {
         font-size: 62.5%;
     }
