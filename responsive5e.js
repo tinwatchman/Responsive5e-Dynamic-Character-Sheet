@@ -1027,7 +1027,7 @@
                     $(".ds_responsive5e .dst_bio").html(dynamic_sheet_attrs["bio"]);
                 }
                 // get image
-                if (dynamic_sheet_attrs.hasOwnProperty("avatar_image")) {
+                if (dynamic_sheet_attrs.hasOwnProperty("avatar_image") && dynamic_sheet_attrs["avatar_image"].indexOf("\"/images/icons/game_character_96x96.png\"") === -1) {
                     $(".ds_responsive5e .dst_avatar_image").html(dynamic_sheet_attrs["avatar_image"]);
                 }
             } else {
@@ -1104,7 +1104,7 @@
                     modSelector = "." + stat + "_mod",
                     saveSelector = ".dsf_" + stat + "_save",
                     saveVal = $(saveSelector).text(),
-                    skillColumnSelector = "." + stat + "_skills span.dsf",
+                    skillColumnSelector = "." + stat + "_skills .stat > span.dsf",
                     skillVal = "";
                 // update modifier
                 if (mod > 0) {
