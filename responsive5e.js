@@ -519,6 +519,7 @@
         addBtn: null,
         itemMap: null,
         isEditMode: false,
+        isMobile: false,
         itemMarkup: '<li class="inventory-item clearfix" data-id="{{{ID}}}">{{{HANDLE}}}<span class="item">{{{NAME}}}</span>{{{BTN}}}</li>',
         handleMarkup: '<span class="handle"><span class="pictonic icon-unordered-list"></span></span>',
         removeBtnMarkup: '<button class="btn btn-default removebtn">&#10005;</button>',
@@ -563,6 +564,9 @@
                 $(window).on("resize", null, {plugin:this}, function(event) {
                     event.data.plugin.onResize();
                 });
+                this.isMobile = window.matchMedia("(max-width: 649px)").matches;
+            } else {
+                this.addBtn.hide();
             }
             this.render();
         },
@@ -600,18 +604,26 @@
         onAddItem: function() {
             var item = this.itemMap.createItem(),
                 markup = this.renderItem(item),
-                column = this.itemMap.getShortestColumn(),
+                column = null;
                 viewColumn = null;
-            switch (column) {
-                case 1:
-                    viewColumn = this.element.find(".col-1-list");
-                    break;
-                case 2:
-                    viewColumn = this.element.find(".col-2-list");
-                    break;
-                case 3:
-                    viewColumn = this.element.find(".col-3-list");
-                    break;
+            // decide which column to use
+            if (!this.isMobile) {
+                column = this.itemMap.getShortestColumn();
+                switch (column) {
+                    case 1:
+                        viewColumn = this.element.find(".col-1-list");
+                        break;
+                    case 2:
+                        viewColumn = this.element.find(".col-2-list");
+                        break;
+                    case 3:
+                        viewColumn = this.element.find(".col-3-list");
+                        break;
+                }  
+            } else {
+                // just put everything in the first column
+                column = 1;
+                viewColumn = this.element.find(".col-1-list");
             }
             // add to view
             var viewItem = $(markup).appendTo(viewColumn);
@@ -665,6 +677,7 @@
                     children = column.children("li.inventory-item");
                     this.adjustElementDimensions(children, column);
                 }
+                this.isMobile = window.matchMedia("(max-width: 649px)");
                 this.lastResizeEvent = $.now();
             }
         },
@@ -1018,20 +1031,23 @@
                 'isEditMode': this.isEditMode
             });
             $("div.inventory").basicRulesInventory({
-                'isEditMode': this.isEditMode
-            })
-            // get biography and picture if not in edit mode
-            if (!this.isEditMode && dynamic_sheet_attrs) {
-                // get biography
-                if (dynamic_sheet_attrs.hasOwnProperty("bio")) {
-                    $(".ds_responsive5e .dst_bio").html(dynamic_sheet_attrs["bio"]);
-                }
-                // get image
-                if (dynamic_sheet_attrs.hasOwnProperty("avatar_image") && dynamic_sheet_attrs["avatar_image"].indexOf("\"/images/icons/game_character_96x96.png\"") === -1) {
-                    $(".ds_responsive5e .dst_avatar_image").html(dynamic_sheet_attrs["avatar_image"]);
-                }
+                'isEditMode': this.isEditMode,
+            });
+            // get biography
+            if (!this.isEditMode && dynamic_sheet_attrs && dynamic_sheet_attrs.hasOwnProperty("bio") && dynamic_sheet_attrs.hasOwnProperty("bio") !== "") {
+                $(".ds_responsive5e .dst_bio").html(dynamic_sheet_attrs["bio"]);
             } else {
                 $(".ds_responsive5e .biography").hide();
+            }
+            // get image
+            if (!this.isEditMode && dynamic_sheet_attrs && dynamic_sheet_attrs.hasOwnProperty("avatar_image") && dynamic_sheet_attrs["avatar_image"].indexOf("\"/images/icons/game_character_96x96.png\"") === -1) {
+                $(".ds_responsive5e .dst_avatar_image").html(dynamic_sheet_attrs["avatar_image"]);
+            } else {
+                $(".ds_responsive5e .basicinfo-2").hide();
+            }
+            // show instructions in edit mode
+            if (this.isEditMode) {
+                $(".ds_responsive5e .instructions").show();
             }
             this.initSpellcastingPage();
         },
